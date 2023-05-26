@@ -1,0 +1,22 @@
+#bg-header {
+    background-image: url(../img/bg.jpg);
+    background-size: cover;
+}
+
+footer li {
+    list-style: none;
+    padding: 2px 0px;
+}
+
+
+footer a {
+    color: white;
+    font-size: medium;
+    text-decoration: none;
+}
+
+footer i {
+    color: white;
+    font-size: medium;
+    text-decoration: none;
+}

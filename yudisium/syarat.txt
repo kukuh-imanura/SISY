@@ -1,0 +1,17 @@
+
+- transkrip
+- sertifikat_toefl
+- sertifikat_publicSpeaking
+- sertifikat_keahlian
+- sk_bebasPembayaran
+- sk_bebasPlagiasi
+- sk_bebas_pinjaman
+- bukti_pembayaran_yudisium
+
+
+- serahkan skripsi ke prodi dan univ
+- serahkan buku bacaan
+- input skripsi di siakad
+- publikasi jurnal
+- lunas pembayaran tugas akhir
+- skripsi disetujui - jilid

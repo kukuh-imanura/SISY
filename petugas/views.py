@@ -6,7 +6,7 @@ from . forms import formPetugas
 
 def index(request) :
 
-    if 'user_id' in request.session:
+    if 'petugas_id' in request.session:
             tabel  = tabelPetugas.objects.all()
             dictionary = {
                 'dataPetugas'   : tabel

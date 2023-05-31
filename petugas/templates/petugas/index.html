@@ -41,14 +41,16 @@
                 </li>
 
                 <!-- MENU DATA -->
+                {% if 'petugas_id' in request.session %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Data </a>
 
                     <ul class="dropdown-menu dropdown-menu-right text-center">
                         <li><a class="dropdown-item" href="/mahasiswa/">Data Mahasiswa</a></li>
-                        <li><a class="dropdown-item" href="/admin/">Data Admin</a></li>
+                        <li><a class="dropdown-item" href="/petugas/">Data Petugas</a></li>
                     </ul>
                 </li>
+                {% endif %}
 
                 <!-- MENU  BUKU-->
                 <li class="nav-item">

@@ -1,7 +1,11 @@
 from django import forms
 from .models import tabelSidang
+from mahasiswa.models import tabelMhs
 
 class formSidang(forms.ModelForm):
+
+    nim = forms.ModelChoiceField(queryset=tabelMhs.objects.all(), widget=forms.Select(attrs={'class': 'form-control mt-2'}))
+
     class Meta:
         model = tabelSidang
         fields = ['s_persetujuan', 's_permohonan', 's_undangan', 'bukti_pembayaran', 'krs', 'kartu_bimbingan', 'transkrip']

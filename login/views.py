@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout
+import hashlib
 
 
 from . forms import formLogin
 from mahasiswa.models import tabelMhs
+from petugas.models import tabelPetugas
 
 def index(request):
     if request.method == 'POST':
@@ -15,20 +17,35 @@ def index(request):
             
             # Ambil data yang diisi oleh pengguna
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            # AMBIL DATA PASSWORD
+            password = request.POST.get('password')
+            # ENSKRIPSI PASSWORD
+            hashed_password = hashlib.md5(password.encode()).hexdigest()
 
             try:
-                mhs = tabelMhs.objects.get(username=username, password=password)
-                if mhs.username == username and mhs.password == password:
+                petugas = tabelPetugas.objects.get(username=username, password=hashed_password)
+                if petugas.username == username and petugas.password == hashed_password:
 
-                    request.session['user_id'] = mhs.nim
-                    request.session['username'] = mhs.username
+                    request.session['petugas_id'] = petugas.nidn
+                    request.session['nama'] = petugas.nama
 
                     return redirect('../')
                 else:
                     messages.error(request, 'Username atau Password Salah')
-            except tabelMhs.DoesNotExist:
-                messages.error(request, 'Akun tidak ditemukan')
+            except tabelPetugas.DoesNotExist:
+                try:
+
+                    mhs = tabelMhs.objects.get(username=username, password=hashed_password)
+                    if mhs.username == username and mhs.password == hashed_password:
+
+                        request.session['mhs_id'] = mhs.nim
+                        request.session['nama'] = mhs.nama
+
+                        return redirect('../')
+                    else:
+                        messages.error(request, 'Username atau Password Salah')
+                except tabelMhs.DoesNotExist:
+                    messages.error(request, 'Akun tidak ditemukan')
 
     else:
         form = formLogin()
@@ -40,5 +57,10 @@ def index(request):
     return render(request, 'login/index.html', context)
 
 def logout_view(request):
+    # Membersihkan semua kunci dalam session
+    request.session.clear()
+    # Menghancurkan sesi
+    request.session.flush()
+    # Melakukan logout pengguna
     logout(request)
     return redirect('../')

@@ -40,8 +40,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-
                 <!-- MENU DATA -->
+                {% if 'petugas_id' in request.session %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Data </a>
 
@@ -50,6 +50,7 @@
                         <li><a class="dropdown-item" href="/petugas/">Data Petugas</a></li>
                     </ul>
                 </li>
+                {% endif %}
 
                 <!-- MENU  BUKU-->
                 <li class="nav-item">

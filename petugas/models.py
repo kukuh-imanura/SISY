@@ -15,4 +15,4 @@ class tabelPetugas(models.Model) :
     alamat      = models.CharField(max_length=50)
     tipe        = models.CharField(max_length=8, choices=TIPE_CHOICES)
     username    = models.CharField(max_length=20)
-    password    = models.CharField(max_length=20)
+    password    = models.CharField(max_length=32)

@@ -43,6 +43,7 @@
                 </li>
 
                 <!-- MENU DATA -->
+                {% if 'petugas_id' in request.session %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Data </a>
 
@@ -51,6 +52,7 @@
                         <li><a class="dropdown-item" href="/petugas/">Data Petugas</a></li>
                     </ul>
                 </li>
+                {% endif %}
 
                 <!-- MENU  BUKU-->
                 <li class="nav-item">
@@ -85,6 +87,10 @@
             {% csrf_token %}
             <center>
                 <table class="text-left">
+                    <tr>
+                        <td>NIM</td>
+                        <td>{{ dataForm.nim }}</td>
+                    </tr>
                     <tr>
                         <td>Surat Persetujuan</td>
                         <td>{{ dataForm.s_persetujuan }}</td>

@@ -8,4 +8,7 @@ class tabelMhs(models.Model) :
     prodi       = models.CharField(max_length=30)
     fakultas    = models.CharField(max_length=30)
     username    = models.CharField(max_length=20)
-    password    = models.CharField(max_length=20)
+    password    = models.CharField(max_length=32)
+
+    def __str__(self):
+        return str(self.nim)

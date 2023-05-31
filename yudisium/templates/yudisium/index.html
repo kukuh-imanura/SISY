@@ -42,6 +42,7 @@
                 </li>
 
                 <!-- MENU DATA -->
+                {% if 'petugas_id' in request.session %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Data </a>
 
@@ -50,6 +51,7 @@
                         <li><a class="dropdown-item" href="/petugas/">Data Petugas</a></li>
                     </ul>
                 </li>
+                {% endif %}
 
                 <!-- MENU  BUKU-->
                 <li class="nav-item">
@@ -76,7 +78,7 @@
     </nav>
 
     <!-- CONTENT -->
-    <div class="container mt-5 table-responsive">
+    <div class="container mt-5">
         <h1 class="text-center">DATA YUDISIUM</h1>
 
         <center class="mt-3">
@@ -86,47 +88,60 @@
         </center>
 
         <hr>
-        <table class="table text-center">
-            <tr>
-                <th>ID</th>
-                <th>Transkrip</th>
-                <th>Sertifikat Toefl</th>
-                <th>Sertifikat Public Speaking</th>
-                <th>Sertifikat Keahlian</th>
-                <th>SK Bebas Pembayaran</th>
-                <th>SK Bebas Pinjaman</th>
-                <th>SK Bebas Plagiasi</th>
-                <th>Bukti Pembayaran</th>
-                <th colspan="2">Aksi</th>
-            </tr>
+        <div class="table-responsive">
+            <table class="table text-center">
+                <tr>
+                    <th>ID</th>
 
-            <!-- PERULANGAN DATA PETUGAS -->
-            {% for data in dataYudisium %}
+                    {% if 'petugas_id' in request.session %}
+                    <th>NIM</th>
+                    {% endif %}
 
-            <tr>
-                <td>{{ data.id_yudisium }}</td>
-                <td>{{ data.transkrip }}</td>
-                <td>{{ data.sertifikat_toefl }}</td>
-                <td>{{ data.sertifikat_publicSpeaking }}</td>
-                <td>{{ data.sertifikat_keahlian }}</td>
-                <td>{{ data.sk_bebasPembayaran }}</td>
-                <td>{{ data.sk_bebasPinjaman }}</td>
-                <td>{{ data.sk_bebasPlagiasi }}</td>
-                <td>{{ data.bukti_pembayaran }}</td>
-                <td>
-                    <button type="submit" class="btn btn-primary">
-                        <a href="/yudisium/{{ data.id_yudisium }}/update/" class="text-center text-light">Edit</a>
-                    </button>
-                    <button type="submit" class="btn btn-danger">
-                        <a href="/yudisium/{{ data.id_yudisium }}/hapus/" class="text-center text-light" onclick="return confirm('Hapus Data?')">Hapus</a>
-                    </button>
-                </td>
-            </tr>
+                    <th>Transkrip</th>
+                    <th>Sertifikat Toefl</th>
+                    <th>Sertifikat Public Speaking</th>
+                    <th>Sertifikat Keahlian</th>
+                    <th>SK Bebas Pembayaran</th>
+                    <th>SK Bebas Pinjaman</th>
+                    <th>SK Bebas Plagiasi</th>
+                    <th>Bukti Pembayaran</th>
+                    <th colspan="2">Aksi</th>
+                </tr>
+    
+                <!-- PERULANGAN DATA PETUGAS -->
+                {% for data in dataYudisium %}
+    
+                <tr>
+                    <td>{{ data.id_yudisium }}</td>
 
-            {% endfor %}
+                    {% if 'petugas_id' in request.session %}
+                    <td>{{ data.nim }}</td>
+                    {% endif %}
 
-            
-        </table>
+                    <td>{{ data.transkrip }}</td>
+                    <td>{{ data.sertifikat_toefl }}</td>
+                    <td>{{ data.sertifikat_publicSpeaking }}</td>
+                    <td>{{ data.sertifikat_keahlian }}</td>
+                    <td>{{ data.sk_bebasPembayaran }}</td>
+                    <td>{{ data.sk_bebasPinjaman }}</td>
+                    <td>{{ data.sk_bebasPlagiasi }}</td>
+                    <td>{{ data.bukti_pembayaran }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">
+                            <a href="/yudisium/{{ data.id_yudisium }}/update/" class="text-center text-light">Edit</a>
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <a href="/yudisium/{{ data.id_yudisium }}/hapus/" class="text-center text-light" onclick="return confirm('Hapus Data?')">Hapus</a>
+                        </button>
+                    </td>
+                </tr>
+    
+                {% endfor %}
+    
+                
+            </table>
+        </div>
+
     </div>
 
 
@@ -188,6 +203,13 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous">
     </script>
+    <!-- <div id="message-container">
+        {% if messages %}
+            {% for message in messages %}
+                <script>alert("{{ message }}");</script>
+            {% endfor %}
+        {% endif %}
+    </div> -->
     <!-- <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
 </body>
 

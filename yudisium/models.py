@@ -2,8 +2,11 @@ from django.db import models
 
 # Create your models here.
 
+from mahasiswa.models import tabelMhs
+
 class tabelYudisium(models.Model) :
     id_yudisium                 = models.AutoField(primary_key=True)
+    nim                         = models.ForeignKey(tabelMhs, on_delete=models.CASCADE, unique=True)
     transkrip                   = models.FileField(upload_to='yudisium/transkrip')
     sertifikat_toefl            = models.FileField(upload_to='yudisium/toefl/')
     sertifikat_publicSpeaking   = models.FileField(upload_to='yudisium/public_speaking/')

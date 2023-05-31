@@ -41,6 +41,7 @@
                 </li>
 
                 <!-- MENU DATA -->
+                {% if 'petugas_id' in request.session %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Data </a>
 
@@ -49,6 +50,8 @@
                         <li><a class="dropdown-item" href="/petugas/">Data Petugas</a></li>
                     </ul>
                 </li>
+                {% endif %}
+
 
                 <!-- MENU  BUKU-->
                 <li class="nav-item">
@@ -73,6 +76,8 @@
             </ul>
         </div>
     </nav>
+
+    <h1 class="text-center mt-5">Welcome, {{ nama }}</h1>
 
     <!-- HEADLINE -->
     <div class="container d-flex justify-content-center mt-5">
@@ -149,6 +154,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous">
     </script>
+
     <!-- <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
 </body>
 

@@ -6,7 +6,7 @@ class formMhs(forms.ModelForm):
         model = tabelMhs
         fields = ['nim', 'nama', 'prodi', 'fakultas', 'username', 'password']
         widgets = {
-            'nim'       : forms.TextInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Masukkan Nim'}),
+            'nim'       : forms.NumberInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Masukkan Nim', 'type' : 'number'}),
             'nama'      : forms.TextInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Masukkan Nama'}),
             'prodi'     : forms.TextInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Masukkan Prodi'}),
             'fakultas'  : forms.TextInput(attrs={'class': 'form-control mt-2', 'placeholder': 'Masukkan Fakultas'}),

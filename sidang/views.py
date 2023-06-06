@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from . models import tabelSidang
+from . models import tabelSidang, tabelWaktuSidang
 from . forms import formSidang
 
 def index(request) :
@@ -9,17 +9,19 @@ def index(request) :
     if 'petugas_id' in request.session :
 
         tabel  = tabelSidang.objects.all()
+        tabelWaktu  = tabelWaktuSidang.objects.all()
         dictionary = {
-            'dataSidang'   : tabel
+            'dataSidang'   : tabel,
+            'dataWaktu'   : tabelWaktu,
         }
         return render(request, 'sidang/index.html', dictionary)
     
     elif 'mhs_id' in request.session : 
 
-        mhs_id = request.session['mhs_id']
-        tabel = tabelSidang.objects.filter(nim=mhs_id)
+        mhs_id      = request.session['mhs_id']
+        tabel       = tabelSidang.objects.filter(nim=mhs_id)
         dictionary = {
-            'dataSidang'   : tabel
+            'dataSidang'   : tabel,
         }
         return render(request, 'sidang/index.html', dictionary)
     

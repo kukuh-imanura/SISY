@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from . models import tabelYudisium
-from . forms import formYudisium
+from . forms import formYudisium, formTglYudisium
 
 def index(request) :
 
@@ -31,14 +31,24 @@ def tambah(request) :
 
         # MENGAMBIL DATA DARI FORM
         form = formYudisium(request.POST, request.FILES)
+        formTgl = formTglYudisium(request.POST)
+
 
         # VALIDASI FORM
-        if form.is_valid():
+        if form.is_valid() or formTgl.is_valid() :
+
+            if 'petugas_id' in request.session :
+                tgl = formTgl.cleaned_data['tanggal']
 
             yudisium = form.save(commit=False)
 
             # Set the foreign key values
             yudisium.nim = form.cleaned_data['nim']
+
+            if 'petugas_id' in request.session :
+                yudisium.tanggal = tgl
+            else :
+                yudisium.tanggal = "0001-01-01 00:00:00.000000"
 
             yudisium.save()
 
@@ -46,12 +56,14 @@ def tambah(request) :
         
     else :
         form = formYudisium()
+        formTgl = formTglYudisium()
         if 'mhs_id' in request.session:
             form.fields['nim'].initial = request.session['mhs_id']
 
     # DICTIONARY
     dictionary = {
-        'dataForm'  : form
+        'dataForm'  : form,
+        'dataFormTgl'  : formTgl,
     }
 
     return render(request, 'yudisium/tambah.html', dictionary)
@@ -62,17 +74,31 @@ def update(request, id_yudisium) :
 
     if request.method == 'POST':
         form = formYudisium(request.POST, request.FILES, instance=instance_yudisium)
-        if form.is_valid():
+        formTgl = formTglYudisium(request.POST, instance=instance_yudisium)
 
-            form.save()
+        if form.is_valid() or formTgl.is_valid() :
+
+            if 'petugas_id' in request.session :
+                tgl = formTgl.cleaned_data['tanggal']
+
+            yudisium = form.save(commit=False)
+
+            if 'petugas_id' in request.session :
+                yudisium.tanggal = tgl
+            else :
+                yudisium.tanggal = "0001-01-01 00:00:00.000000"
+
+            yudisium.save()
 
             return redirect('../../')
     else:
         form = formYudisium(instance=instance_yudisium)
+        formTgl = formTglYudisium(instance=instance_yudisium)
         form.fields['nim'].initial = instance_yudisium.nim
 
     dictionary  = {
         'dataForm'      : form,
+        'dataFormTgl'      : formTgl,
         'dataYudisium'    : instance_yudisium,
     }
 

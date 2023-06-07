@@ -1,5 +1,5 @@
 from django import forms
-from .models import tabelSidang, tabelWaktuSidang
+from .models import tabelSidang
 from mahasiswa.models import tabelMhs
 
 class formSidang(forms.ModelForm):
@@ -19,13 +19,22 @@ class formSidang(forms.ModelForm):
             'transkrip'         : forms.FileInput(attrs={'class': 'form-control mt-2', 'type' : 'file'}),
         }
 
-class formWaktuSidang(forms.ModelForm) :
-    nim = forms.ModelChoiceField(queryset=tabelMhs.objects.all(), widget=forms.Select(attrs={'class': 'form-control mt-2'}))
-
+class formTglSidang(forms.ModelForm):
     class Meta:
-        model = tabelWaktuSidang
-        fields = ['waktu_sidang']
+        model = tabelSidang
+        fields = ['tanggal']
         widgets = {
-            'waktu_sidang'     : forms.DateTimeInput(attrs={'class': 'form-control mt-2', 'type' : 'date-time'}),
+            'tanggal'           : forms.DateTimeInput(attrs={'class': 'form-control mt-2', 'type' : 'datetime-local'}),
         }
+
+# class formWaktuSidang(forms.ModelForm) :
+#     nim = forms.ModelChoiceField(queryset=tabelMhs.objects.all(), widget=forms.Select(attrs={'class': 'form-control mt-2'}))
+
+#     class Meta:
+#         model = tabelWaktuSidang
+#         fields = ['waktu_sidang']
+#         widgets = {
+#             'waktu_sidang'     : forms.DateTimeInput(attrs={'class': 'form-control mt-2', 'type' : 'date-time'}),
+#         }
+
 

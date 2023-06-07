@@ -18,3 +18,12 @@ class formYudisium(forms.ModelForm):
             'sk_bebasPlagiasi'          : forms.FileInput(attrs={'class': 'form-control mt-2', 'type' : 'file'}),
             'bukti_pembayaran'          : forms.FileInput(attrs={'class': 'form-control mt-2', 'type' : 'file'}),
         }
+
+class formTglYudisium(forms.ModelForm):
+    nim = forms.ModelChoiceField(queryset=tabelMhs.objects.all(), widget=forms.Select(attrs={'class': 'form-control mt-2'}))
+    class Meta:
+        model = tabelYudisium
+        fields = ['tanggal']
+        widgets = {
+            'tanggal'   : forms.DateTimeInput(attrs={'class': 'form-control mt-2', 'type' : 'datetime-local'}),
+        }

@@ -1,18 +1,16 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from . models import tabelSidang, tabelWaktuSidang
-from . forms import formSidang
+from . models import tabelSidang
+from . forms import formSidang, formTglSidang
 
 def index(request) :
 
     if 'petugas_id' in request.session :
 
         tabel  = tabelSidang.objects.all()
-        tabelWaktu  = tabelWaktuSidang.objects.all()
         dictionary = {
             'dataSidang'   : tabel,
-            'dataWaktu'   : tabelWaktu,
         }
         return render(request, 'sidang/index.html', dictionary)
     
@@ -35,34 +33,37 @@ def tambah(request) :
 
         # MENGAMBIL DATA DARI FORM
         form = formSidang(request.POST, request.FILES)
+        formTgl = formTglSidang(request.POST)
 
         # VALIDASI FORM
-        if form.is_valid():
+        if form.is_valid() or formTgl.is_valid() :
+
+            if 'petugas_id' in request.session :
+                tgl = formTgl.cleaned_data['tanggal']
 
             sidang = form.save(commit=False)
 
             # Set the foreign key values
             sidang.nim = form.cleaned_data['nim']
-            # existing_sidang = sidang.objects.filter(nim=sidang.nim).exists()
-            
-            # if existing_sidang:
-            #     # Data sidang sudah ada untuk nim tertentu
-            #     messages.warning(request, 'Data sidang sudah ada untuk nim tersebut.')
-            # else:
-            #     sidang.save()
-            #     return redirect('../')
+
+            if 'petugas_id' in request.session :
+                sidang.tanggal = tgl
+            else :
+                sidang.tanggal = "0001-01-01 00:00:00.000000"
 
             sidang.save()
             return redirect('../')
     
     else :
         form = formSidang()
+        formTgl = formTglSidang()
         if 'mhs_id' in request.session:
             form.fields['nim'].initial = request.session['mhs_id']
 
     # DICTIONARY
     dictionary = {
-        'dataForm'  : form
+        'dataForm'  : form,
+        'dataFormTgl'  : formTgl,
     }
 
     return render(request, 'sidang/tambah.html', dictionary)
@@ -73,17 +74,31 @@ def update(request, id_sidang) :
 
     if request.method == 'POST':
         form = formSidang(request.POST, request.FILES, instance=instance_sidang)
-        if form.is_valid():
+        formTgl = formTglSidang(request.POST, instance=instance_sidang)
 
-            form.save()
+        if form.is_valid() or formTgl.is_valid() :
+
+            if 'petugas_id' in request.session :
+                tgl = formTgl.cleaned_data['tanggal']
+
+            sidang = form.save(commit=False)
+
+            if 'petugas_id' in request.session :
+                sidang.tanggal = tgl
+            else :
+                sidang.tanggal = "0001-01-01 00:00:00.000000"
+
+            sidang.save()
 
             return redirect('../../')
     else:
         form = formSidang(instance=instance_sidang)
+        formTgl = formTglSidang()
         form.fields['nim'].initial = instance_sidang.nim
 
     dictionary  = {
         'dataForm'      : form,
+        'dataFormTgl'   : formTgl,
         'dataSidang'    : instance_sidang,
     }
 

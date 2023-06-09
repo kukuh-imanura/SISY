@@ -5,7 +5,7 @@ from . forms import formYudisium, formTglYudisium
 
 def index(request) :
 
-    if 'petugas_id' in request.session :
+    if 'petugas_fakultas' in request.session or 'petugas_prodi' in request.session :
         tabel  = tabelYudisium.objects.all()
         dictionary = {
             'dataYudisium'   : tabel
@@ -33,7 +33,7 @@ def tambah(request) :
         form = formYudisium(request.POST, request.FILES)
         formTgl = formTglYudisium(request.POST)
 
-        if 'petugas_id' in request.session :
+        if 'petugas_fakultas' in request.session :
         # VALIDASI FORM
             if form.is_valid() and formTgl.is_valid() :
 
@@ -87,7 +87,7 @@ def update(request, id_yudisium) :
         form = formYudisium(request.POST, request.FILES, instance=instance_yudisium)
         formTgl = formTglYudisium(request.POST, instance=instance_yudisium)
 
-        if 'petugas_id' in request.session :
+        if 'petugas_fakultas' in request.session :
 
             if form.is_valid() and formTgl.is_valid() :
 

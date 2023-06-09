@@ -24,12 +24,19 @@ def index(request):
 
             try:
                 petugas = tabelPetugas.objects.get(username=username, password=hashed_password)
-                if petugas.username == username and petugas.password == hashed_password:
+                if petugas.username == username and petugas.password == hashed_password :
 
-                    request.session['petugas_id'] = petugas.nidn
-                    request.session['nama'] = petugas.nama
+                    if petugas.tipe == 'fakultas' :
+                        request.session['petugas_fakultas'] = petugas.nidn
+                        request.session['nama'] = petugas.nama
 
-                    return redirect('../')
+                        return redirect('../')
+                    else :
+                        request.session['petugas_prodi'] = petugas.nidn
+                        request.session['nama'] = petugas.nama
+
+                        return redirect('../')
+                    
                 else:
                     messages.error(request, 'Username atau Password Salah')
             except tabelPetugas.DoesNotExist:

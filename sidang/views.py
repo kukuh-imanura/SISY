@@ -6,7 +6,7 @@ from . forms import formSidang, formTglSidang
 
 def index(request) :
 
-    if 'petugas_id' in request.session :
+    if 'petugas_fakultas' in request.session or 'petugas_prodi' in request.session :
 
         tabel  = tabelSidang.objects.all()
         dictionary = {
@@ -35,7 +35,7 @@ def tambah(request) :
         form = formSidang(request.POST, request.FILES)
         formTgl = formTglSidang(request.POST)
 
-        if 'petugas_id' in request.session :
+        if 'petugas_fakultas' in request.session :
 
             # VALIDASI FORM
             if form.is_valid() and formTgl.is_valid() :
@@ -88,7 +88,7 @@ def update(request, id_sidang) :
         form = formSidang(request.POST, request.FILES, instance=instance_sidang)
         formTgl = formTglSidang(request.POST, instance=instance_sidang)
 
-        if 'petugas_id' in request.session :
+        if 'petugas_fakultas' in request.session :
             if form.is_valid() or formTgl.is_valid() :
 
                 

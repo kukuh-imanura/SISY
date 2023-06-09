@@ -33,26 +33,37 @@ def tambah(request) :
         form = formYudisium(request.POST, request.FILES)
         formTgl = formTglYudisium(request.POST)
 
-
+        if 'petugas_id' in request.session :
         # VALIDASI FORM
-        if form.is_valid() or formTgl.is_valid() :
+            if form.is_valid() and formTgl.is_valid() :
 
-            if 'petugas_id' in request.session :
+                
                 tgl = formTgl.cleaned_data['tanggal']
 
-            yudisium = form.save(commit=False)
+                yudisium = form.save(commit=False)
 
-            # Set the foreign key values
-            yudisium.nim = form.cleaned_data['nim']
+                # Set the foreign key values
+                yudisium.nim = form.cleaned_data['nim']
 
-            if 'petugas_id' in request.session :
                 yudisium.tanggal = tgl
-            else :
                 yudisium.tanggal = "0001-01-01 00:00:00.000000"
 
-            yudisium.save()
+                yudisium.save()
 
-            return redirect('../')
+                return redirect('../')
+            
+        elif 'mhs_id' in request.session :
+            if form.is_valid() :
+
+                yudisium = form.save(commit=False)
+
+                # Set the foreign key values
+                yudisium.nim = form.cleaned_data['nim']
+                yudisium.tanggal = "0001-01-01 00:00:00.000000"
+
+                yudisium.save()
+
+                return redirect('../')
         
     else :
         form = formYudisium()
@@ -76,21 +87,27 @@ def update(request, id_yudisium) :
         form = formYudisium(request.POST, request.FILES, instance=instance_yudisium)
         formTgl = formTglYudisium(request.POST, instance=instance_yudisium)
 
-        if form.is_valid() or formTgl.is_valid() :
+        if 'petugas_id' in request.session :
 
-            if 'petugas_id' in request.session :
+            if form.is_valid() and formTgl.is_valid() :
+
                 tgl = formTgl.cleaned_data['tanggal']
 
-            yudisium = form.save(commit=False)
-
-            if 'petugas_id' in request.session :
+                yudisium = form.save(commit=False)
                 yudisium.tanggal = tgl
-            else :
+
+                yudisium.save()
+
+                return redirect('../../')
+            
+        elif 'mhs_id' in request.session : 
+            if form.is_valid() :
+
+                yudisium = form.save(commit=False)
                 yudisium.tanggal = "0001-01-01 00:00:00.000000"
+                yudisium.save()
 
-            yudisium.save()
-
-            return redirect('../../')
+                return redirect('../../')
     else:
         form = formYudisium(instance=instance_yudisium)
         formTgl = formTglYudisium(instance=instance_yudisium)
